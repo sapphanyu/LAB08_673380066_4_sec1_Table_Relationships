@@ -14,7 +14,7 @@
 
   <!-- ⚠️ แก้ artifactId เป็น lab8-{รหัสนักศึกษา}-sec{section} -->
   <groupId>com.example</groupId>
-  <artifactId>lab8-67XXXXXXXX-X-sec1</artifactId>
+  <artifactId>lab8-673380066-4-sec1</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>lab8-product-shop</name>
   <description>Lab 8 — Product Shop 1:1 Relationship | CP353002</description>
@@ -66,6 +66,13 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- H2 Database for Unit & Integration Testing -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -73,6 +80,13 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>-Dnet.bytebuddy.experimental=true</argLine>
+        </configuration>
       </plugin>
     </plugins>
   </build>

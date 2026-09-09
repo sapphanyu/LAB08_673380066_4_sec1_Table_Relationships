@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ยืนยันการลบ — Lab 8</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>🗑️ ยืนยันการลบสินค้า</h1>
+
+    <div class="card card-danger">
+        <p>คุณต้องการลบสินค้านี้ใช่หรือไม่? การดำเนินการนี้ไม่สามารถย้อนกลับได้</p>
+
+        <div class="detail-view">
+            <div class="detail-row">
+                <span class="label">ชื่อสินค้า:</span>
+                <span th:text="${product.name}"></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">หมวดหมู่:</span>
+                <span th:text="${product.category}"></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">ยี่ห้อ:</span>
+                <span th:text="${product.brand}"></span>
+            </div>
+            <div class="detail-row">
+                <span class="label">ราคา:</span>
+                <span th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' บาท'"></span>
+            </div>
+            <div class="detail-row" th:if="${product.detail != null}">
+                <span class="label">รายละเอียด:</span>
+                <span th:text="${product.detail.description}"></span>
+            </div>
+            <div class="detail-row" th:if="${product.detail != null}">
+                <span class="label">รับประกัน:</span>
+                <span th:text="${product.detail.warranty}"></span>
+            </div>
+        </div>
+
+        <p class="text-muted">⚠️ ข้อมูลเสริม (ProductDetail) จะถูกลบพร้อมกันด้วย เนื่องจาก CascadeType.ALL</p>
+    </div>
+
+    <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger">ยืนยันลบ</button>
+    </form>
+    <a th:href="@{/products}" class="btn btn-secondary">ยกเลิก</a>
+</div>
+</body>
+</html>

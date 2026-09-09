@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>เพิ่มสินค้า — Lab 8 (1:1 &amp; 1:N)</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>➕ เพิ่มสินค้าใหม่</h1>
+
+    <form th:action="@{/products/save}" th:object="${product}" method="post">
+
+        <!-- ── Product Info ── -->
+        <div class="card">
+            <h2>📦 ข้อมูลสินค้า (Product)</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ชื่อสินค้า</label>
+                    <input type="text" th:field="*{name}" placeholder="เช่น iPhone 15 Pro (67XXXXXXXX-X SEC 1)" required>
+                </div>
+                <div class="form-group">
+                    <label>หมวดหมู่</label>
+                    <input type="text" th:field="*{category}" placeholder="เช่น Electronics, Clothing, Food" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ยี่ห้อ</label>
+                    <input type="text" th:field="*{brand}" placeholder="เช่น Apple, Samsung" required>
+                </div>
+                <div class="form-group">
+                    <label>จำนวนในคลัง</label>
+                    <input type="number" th:field="*{stock}" min="0" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ราคาปกติ (บาท)</label>
+                    <input type="number" th:field="*{price}" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>ประเภทส่วนลด</label>
+                    <select th:field="*{discountType}">
+                        <option value="NONE">ไม่มีส่วนลด</option>
+                        <option value="MEMBER">ส่วนลดสมาชิก (10%)</option>
+                        <option value="SEASONAL">ส่วนลดเทศกาล (20%)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── ProductDetail Info (1:1) ── -->
+        <div class="card card-detail">
+            <h2>📋 ข้อมูลเสริมสินค้า (ProductDetail) — ความสัมพันธ์ 1:1</h2>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label>รายละเอียดสินค้า</label>
+                    <textarea th:field="*{detail.description}" rows="3" placeholder="อธิบายคุณสมบัติสินค้า"></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ระยะเวลารับประกัน</label>
+                    <input type="text" th:field="*{detail.warranty}" placeholder="เช่น 1 Year, 6 Months">
+                </div>
+                <div class="form-group">
+                    <label>น้ำหนัก (กิโลกรัม)</label>
+                    <input type="number" th:field="*{detail.weight}" step="0.01" min="0" placeholder="เช่น 1.61">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ขนาด (กว้าง x ยาว x สูง)</label>
+                    <input type="text" th:field="*{detail.dimensions}" placeholder="เช่น 15x7x0.8 cm">
+                </div>
+                <div class="form-group">
+                    <label>ประเทศที่ผลิต</label>
+                    <input type="text" th:field="*{detail.manufacturedCountry}" placeholder="เช่น China, USA, Japan">
+                </div>
+            </div>
+        </div>
+
+        <!-- ── Review Info (1:N) ── -->
+        <div class="card card-review">
+            <h2>⭐ รีวิวสินค้า (Review) — ความสัมพันธ์ 1:N</h2>
+            <p class="hint">เพิ่มรีวิวแรกพร้อมกับสินค้า (สามารถเพิ่มรีวิวเพิ่มเติมภายหลังได้)</p>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>ชื่อผู้รีวิว</label>
+                    <input type="text" th:field="*{reviews[0].reviewer}" placeholder="เช่น สมชาย ใจดี">
+                </div>
+                <div class="form-group">
+                    <label>คะแนน (1-5)</label>
+                    <select th:field="*{reviews[0].rating}">
+                        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                        <option value="4">⭐⭐⭐⭐ (4)</option>
+                        <option value="3">⭐⭐⭐ (3)</option>
+                        <option value="2">⭐⭐ (2)</option>
+                        <option value="1">⭐ (1)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label>ความเห็น</label>
+                    <textarea th:field="*{reviews[0].comment}" rows="2" placeholder="เขียนรีวิวสินค้า..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 บันทึกสินค้า</button>
+            <a th:href="@{/products}" class="btn btn-secondary">ยกเลิก</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>
